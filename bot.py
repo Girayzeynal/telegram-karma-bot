@@ -3,7 +3,7 @@ import os
 import logging
 from flask import Flask, request
 from telegram import Bot, Update
-from telegram.ext import Dispatcher, CommandHandler, MessageHandler, Filters
+from telegram.ext import Dispatcher, CommandHandler, MessageHandler, filters
 
 # --- Logging ---
 logging.basicConfig(
@@ -25,24 +25,24 @@ bot = Bot(token=BOT_TOKEN)
 dispatcher = Dispatcher(bot, None, use_context=True)
 
 # --- Komutlar ve Mesajlar ---
-def start(update, context):
-    update.message.reply_text("👋 Merhaba! Karma Bot aktif. /start veya 'selam' yazabilirsin.")
+def start(update: Update, context):
+    update.message.reply_text("🌞 Merhaba! Karma Bot aktif. /start veya 'selam' yazabilirsin.")
 
-def echo(update, context):
+def echo(update: Update, context):
     text = update.message.text or ""
     if "selam" in text.lower():
-        update.message.reply_text("Selam Zeynal 👀 Nasılsın bugün?")
+        update.message.reply_text("Selam Zeynal 🤖 Nasılsın bugün?")
     else:
         update.message.reply_text(f"Gelen mesaj: {text}")
 
 # --- Dispatcher Handler Kaydı ---
 dispatcher.add_handler(CommandHandler("start", start))
-dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
+dispatcher.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
 
 # --- Flask Route ---
 @app.route("/", methods=["GET"])
 def index():
-    return "Karma Bot çalışıyor 💫"
+    return "Karma Bot çalışıyor 🚀"
 
 @app.route(f"/{BOT_TOKEN}", methods=["POST"])
 def webhook():
@@ -62,4 +62,3 @@ if __name__ == "__main__":
         except Exception as e:
             logger.exception(f"Webhook ayarlanırken hata: {e}")
     app.run(host="0.0.0.0", port=port)
-# reload test
