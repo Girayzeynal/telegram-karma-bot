@@ -62,4 +62,3 @@ if __name__ == "__main__":
         except Exception as e:
             logger.exception(f"Webhook ayarlanırken hata: {e}")
     app.run(host="0.0.0.0", port=port)
-fixed bot.py for Telegram karma bot
