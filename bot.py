@@ -1,4 +1,4 @@
-import imghdr 
+# bot.py
 import os
 import logging
 from flask import Flask, request
@@ -50,7 +50,7 @@ app_tg.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
 def home():
     return "Karma Bot çalışıyor 🚀"
 
-# --- Flask Webhook (isteğe bağlı, şu anda polling aktif) ---
+# --- Flask Webhook (Render, şu anda polling aktif) ---
 @app.route(f"/{BOT_TOKEN}", methods=["POST"])
 def webhook():
     update = Update.de_json(request.get_json(force=True), app_tg.bot)
