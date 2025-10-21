@@ -3,7 +3,7 @@ import os
 import logging
 from flask import Flask, request
 from telegram import Bot, Update
-from telegram.ext import Dispatcher, CommandHandler, MessageHandler, filters
+from telegram.ext import Dispatcher, CommandHandler, MessageHandler, Filters  # <-- Filters büyük harfle!
 
 # --- Logging ---
 logging.basicConfig(
@@ -22,7 +22,7 @@ if not BOT_TOKEN:
     raise RuntimeError("BOT_TOKEN environment variable is required.")
 
 bot = Bot(token=BOT_TOKEN)
-dispatcher = Dispatcher(bot, None, use_context=True)
+dispatcher = Dispatcher(bot, None)
 
 # --- Komutlar ve Mesajlar ---
 def start(update: Update, context):
@@ -37,7 +37,7 @@ def echo(update: Update, context):
 
 # --- Dispatcher Handler Kaydı ---
 dispatcher.add_handler(CommandHandler("start", start))
-dispatcher.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
+dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, echo))
 
 # --- Flask Route ---
 @app.route("/", methods=["GET"])
